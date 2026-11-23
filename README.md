@@ -1,3 +1,120 @@
+Aswini-J
+Exp3-Sobel-edge-detection-filter-using-CUDA-to-enhance-the-performance-of-image-processing-tasks.
+Repository navigation
+Code
+Issues
+Pull requests
+Agents
+Actions
+Projects
+Security and quality
+Insights
+Files
+Go to file
+t
+T
+README.md
+Sobel_edge_detection_image_processing.ipynb
+You’re making changes in a project you don’t have write access to. Submitting a change will write it to a new branch in your fork hemalathav875-cpu/Exp3-Sobel-edge-detection-filter-using-CUDA-to-enhance-the-performance-of-image-processing-tasks., so you can send a pull request.
+Exp3-Sobel-edge-detection-filter-using-CUDA-to-enhance-the-performance-of-image-processing-tasks.
+/
+README.md
+in
+main
+
+Edit
+
+Preview
+Indent mode
+
+Spaces
+Indent size
+
+2
+Line wrap mode
+
+Soft wrap
+Editing README.md file contents
+ 
+  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
 # Exp3-Sobel-edge-detection-filter-using-CUDA-to-enhance-the-performance-of-image-processing-tasks.
 <h3>AIM:</h3>
 <h3>ENTER YOUR NAME</h3>
@@ -36,25 +153,48 @@ Compare the output of your CUDA Sobel filter with a CPU-based Sobel filter imple
 Discuss the differences in execution time and output quality.
 
 ## PROGRAM:
-TYPE YOUR CODE HERE
+```
+%%writefile sobelEdgeDetectionFilter.cu
+#include <stdio.h>
+#include <stdlib.h> 
+#include <math.h>
+#include <cuda_runtime.h>
+#include <opencv2/opencv.hpp>
 
-## OUTPUT:
-SHOW YOUR OUTPUT HERE
+using namespace cv;
 
-## RESULT:
-Thus the program has been executed by using CUDA to ________________.
+__global__ void sobelFilter(unsigned char *srcImage, unsigned char *dstImage, unsigned int width, unsigned int height) {
+    int x = blockIdx.x * blockDim.x + threadIdx.x;
+    int y = blockIdx.y * blockDim.y + threadIdx.y;
+    float Kx[3][3] = { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
+    float Ky[3][3] = { 1, 2, 1, 0, 0, 0, -1, -2, -1 };
+    // only threads inside image will write results
+    if ((x >= 3 / 2) && (x < (width - 3 / 2)) && (y >= 3 / 2) && (y < (height - 3 / 2))) {
+        // Gradient in x-direction
+        float Gx = 0;
+        // Loop inside the filter to average pixel values
+        for (int ky = -3 / 2; ky <= 3 / 2; ky++) {
+            for (int kx = -3 / 2; kx <= 3 / 2; kx++) {
+                float fl = srcImage[((y + ky) * width + (x + kx))];
+                Gx += fl * Kx[ky + 3 / 2][kx + 3 / 2];
+            }
+        }
+        float Gx_abs = Gx < 0 ? -Gx : Gx;
+        // Gradient in y-direction
+        float Gy = 0;
+        // Loop inside the filter to average pixel values
+        for (int ky = -3 / 2; ky <= 3 / 2; ky++) {
+            for (int kx = -3 / 2; kx <= 3 / 2; kx++) {
+                float fl = srcImage[((y + ky) * width + (x + kx))];
+                Gy += fl * Ky[ky + 3 / 2][kx + 3 / 2];
+            }
+        }
+        float Gy_abs =   Gy < 0 ? -Gy : Gy;
+        dstImage[(y * width + x)] = Gx_abs + Gy_abs;
+    }
 
-Questions:
+}
 
-What challenges did you face while implementing the Sobel filter for color images?
-How did changing the block size influence the performance of your CUDA implementation?
-What were the differences in output between the CUDA and CPU implementations? Discuss any discrepancies.
-Suggest potential optimizations for improving the performance of the Sobel filter.
-
-Deliverables:
-
-Modified CUDA code with comments explaining your changes.
-A report summarizing your findings, including graphs of execution times and a comparison of outputs.
-Answers to the questions posed in the experiment.
-Tools Required:
-
+Use Control + Shift + m to toggle the tab key moving focus. Alternatively, use esc then tab to move to the next interactive element on the page.
+No file chosen
+Attach files by dragging & dropping, selecting or pasting them.
