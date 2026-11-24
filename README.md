@@ -1,19 +1,19 @@
-Exp3-Sobel-edge-detection-filter-using-CUDA-to-enhance-the-performance-of-image-processing-tasks.
-NAME:HEMALATHA V
-REGISTER NO:212225230099
-EX. NO:03
-DATE:24/11/26
-Sobel edge detection filter using CUDA
-Implement Sobel edge detection filtern using GPU. Experiment Details:
-AIM:
+## Exp3-Sobel-edge-detection-filter-using-CUDA-to-enhance-the-performance-of-image-processing-tasks.
+## NAME:HEMALATHA V
+## REGISTER NO:212225230099
+## EX. NO:03
+## DATE:24/11/26
+## Sobel edge detection filter using CUDA
+## Implement Sobel edge detection filtern using GPU. Experiment Details:
+## AIM:
 The Sobel operator is a popular edge detection method that computes the gradient of the image intensity at each pixel. It uses convolution with two kernels to determine the gradient in both the x and y directions. This lab focuses on utilizing CUDA to parallelize the Sobel filter implementation for efficient processing of images.
 
 Code Overview: You will work with the provided CUDA implementation of the Sobel edge detection filter. The code reads an input image, applies the Sobel filter in parallel on the GPU, and writes the result to an output image.
 
-EQUIPMENTS REQUIRED:
+## EQUIPMENTS REQUIRED:
 Hardware – PCs with NVIDIA GPU & CUDA NVCC Google Colab with NVCC Compiler CUDA Toolkit and OpenCV installed. A sample image for testing.
 
-PROCEDURE:
+## PROCEDURE:
 Tasks:
 
 a. Modify the Kernel:
@@ -28,7 +28,7 @@ c. Comparison:
 
 Compare the output of your CUDA Sobel filter with a CPU-based Sobel filter implemented using OpenCV. Discuss the differences in execution time and output quality.
 
-PROGRAM:
+## PROGRAM:
 ```
 %%writefile sobelEdgeDetectionFilter.cu
 #include <stdio.h>
@@ -146,14 +146,14 @@ int main() {
     return 0;
 }
 ```
-OUTPUT:
-ORIGINAL IMAGE:
+## OUTPUT:
+## ORIGINAL IMAGE:
 
 <img width="4800" height="4000" alt="flower" src="https://github.com/user-attachments/assets/5ce60f56-4e3c-4546-9820-c983ff499cb6" />
 
-EDGE DETECTED:
+## EDGE DETECTED:
 
 <img width="492" height="433" alt="Screenshot 2026-11-24 095347" src="https://github.com/user-attachments/assets/88cc4971-6bdd-47ce-bf2b-40e6da3512cb" />
 
-RESULT:
+## RESULT:
 Thus the program has been executed by using CUDA to to perform Sobel Edge Detection on an input image. Total time taken: 0.747584 milliseconds
